@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Project-specific
+newslens.db
+newslens.db-shm
+newslens.db-wal
+models/*.pt
+models/*.pth
+logs/
+data/raw/
+data/processed/
+
+# Claude Code internal session state
+.superpowers/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Docker
+.dockerignore
+
+# Jupyter
+*.ipynb_checkpoints/
