@@ -30,14 +30,14 @@ USER appuser
 
 EXPOSE 5001
 
-# Health check
+# Health check (uses PORT env var with fallback to 5001)
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:5001/api/health')"
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:${PORT:-5001}/api/health')"
 
-# Production server: 2 workers, 2 threads each
-CMD ["gunicorn", "app.main:app", \
-     "--worker-class", "uvicorn.workers.UvicornWorker", \
-     "--workers", "2", \
-     "--bind", "0.0.0.0:5001", \
-     "--timeout", "120", \
-     "--access-logfile", "-"]
+# Production server — shell form so ${PORT:-5001} expands at runtime
+CMD gunicorn app.main:app \
+    --worker-class uvicorn.workers.UvicornWorker \
+    --workers 2 \
+    --bind 0.0.0.0:${PORT:-5001} \
+    --timeout 120 \
+    --access-logfile -
